@@ -23,6 +23,8 @@ private:
     int* multipleTestCasesCounter_;
     optional<string> multipleTestCasesOutputPrefix_;
     optional<string> multipleTestCasesFirstOutputPrefix_;
+    bool multipleTestCasesHasEmptyLineBetweenInputs_;
+    bool multipleTestCasesHasEmptyLineBetweenOutputs_;
     unsigned seed_;
     string solutionCommand_;
     string outputDir_;
@@ -43,6 +45,14 @@ public:
 
     const optional<string>& multipleTestCasesFirstOutputPrefix() const {
         return multipleTestCasesFirstOutputPrefix_;
+    }
+
+    bool multipleTestCasesHasEmptyLineBetweenInputs() const {
+        return multipleTestCasesHasEmptyLineBetweenInputs_;
+    }
+
+    bool multipleTestCasesHasEmptyLineBetweenOutputs() const {
+        return multipleTestCasesHasEmptyLineBetweenOutputs_;
     }
 
     unsigned int seed() const {
@@ -104,6 +114,17 @@ public:
     GenerationOptionsBuilder& setMultipleTestCasesOutputPrefix(string outputPrefix) {
         subject_.multipleTestCasesOutputPrefix_ = outputPrefix;
         subject_.multipleTestCasesFirstOutputPrefix_ = StringUtils::interpolate(outputPrefix, 1);
+        return *this;
+    }
+
+
+    GenerationOptionsBuilder& setMultipleTestCasesHasEmptyLineBetweenInputs_(bool has) {
+        subject_.multipleTestCasesHasEmptyLineBetweenInputs_ = has;
+        return *this;
+    }
+
+    GenerationOptionsBuilder& setMultipleTestCasesHasEmptyLineBetweenOutputs_(bool has) {
+        subject_.multipleTestCasesHasEmptyLineBetweenOutputs_ = has;
         return *this;
     }
 

@@ -137,13 +137,24 @@ private:
                 sout2 << " && ";
                 if (i > 1 && options.multipleTestCasesOutputPrefix()) {
                     string outputPrefix = options.multipleTestCasesOutputPrefix().value();
+                    string firstPrefix = options.multipleTestCasesFirstOutputPrefix().value();
                     // Replace the prefix for the first tc, with the correct prefix for this tc
-                    string firstPrefix = StringUtils::interpolate(outputPrefix, 1);
                     string correctPrefix = StringUtils::interpolate(outputPrefix, i);
                     sout2 << "printf \"%b\" \"" << escapeForBash(correctPrefix) << "\" >> " << testGroupOut << " && ";
                     sout2 << "tail -c +" << (firstPrefix.size() + 1) << " " << out << " >> " << testGroupOut;
                 } else {
                     sout2 << "cat " << out << " >> " << testGroupOut;
+                }
+            }
+
+            if (i < testCaseCount) {
+                if (options.multipleTestCasesHasEmptyLineBetweenInputs()) {
+                    sout2 << " && ";
+                    sout2 << " echo >> " << testGroupIn;
+                }
+                if (options.multipleTestCasesHasEmptyLineBetweenOutputs()) {
+                    sout2 << " && ";
+                    sout2 << " echo >> " << testGroupOut;
                 }
             }
 
